@@ -18,8 +18,8 @@ let ballVelIncrease = 0.4; // default to 0.2
 let paddleWidth = 75; // default 75
 let paddleHeight = 10;  // default 10
 let paddleX = (canvas.width - paddleWidth) / 2; // x val of center of paddle
-let paddleLeftBorder = paddleX - (paddleWidth / 2);
-let paddleRightBorder = paddleX + (paddleWidth / 2);
+// let paddleLeftBorder = paddleX - (paddleWidth / 2);
+// let paddleRightBorder = paddleX + (paddleWidth / 2);
 let paddleSpeed = 8; // normal setting is 8
 
 // brick vars
@@ -76,10 +76,10 @@ function mouseMoveHandler(e) {
 function togglePause() {
     if (!paused) {
         paused = true;
-        console.log("I should be paused")
+        console.log(`I should be paused. var paused = ${paused}`)
     } else {
         paused = false;
-        console.log('game on!')
+        console.log(`Game on! var paused = ${paused}`)
     }
 }
 
@@ -196,6 +196,8 @@ function draw() {
                     alert('Game Over');
                     document.location.reload();
                 } else {
+                    ballRadius = 3.5; // have a little mercy; reset the ball size up a bit
+                    console.log(`Radius increased to ${ballRadius}`)
                     x = canvas.width / 2;
                     y = canvas.height - 30;
                     dx = 2;
@@ -224,4 +226,4 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-draw(); 
+draw();
