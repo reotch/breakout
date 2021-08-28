@@ -4,29 +4,33 @@ let ctx = canvas.getContext('2d');
 // game vars
 let score = 0;
 let lives = 3;
+let paused = false;
 
 // ball vars
 let x = canvas.width / 2;
 let y = canvas.height - 30;
-let dx = 2;
-let dy = -2;
-let ballRadius = 5;
-let ballVel = 0.2;
+let dx = 2; // default 2
+let dy = -2; // default -2
+let ballRadius = 10;
+let ballVelIncrease = 0.4; // default to 0.2
 
 // paddle vars
-let paddleWidth = 75;
-let paddleHeight = 10;
-let paddleX = (canvas.width - paddleWidth) / 2;
-let paddleSpeed = 8;
+let paddleWidth = 75; // default 75
+let paddleHeight = 10;  // default 10
+let paddleX = (canvas.width - paddleWidth) / 2; // x val of center of paddle
+// let paddleLeftBorder = paddleX - (paddleWidth / 2);
+// let paddleRightBorder = paddleX + (paddleWidth / 2);
+let paddleSpeed = 8; // normal setting is 8
 
 // brick vars
-let brickRows = 3;
-let brickCols = 5;
-let brickWidth = 75;
-let brickHeight = 20;
+let brickRows = 3; // default 3
+let brickCols = 7; // default 5
+let brickWidth = 50; // calc based on canvas width
+let brickHeight = 20; // default 20
 let brickPadding = 10; // padding all sides between bricks
-let brickOffsetTop = 30; // start drawing from top
-let brickOffsetLeft = 30; // start drawing from left
+let brickOffsetTop = 30; // start drawing bricks from top
+let brickOffsetLeft = 30; // start drawing bricks from left
+let brickColors = ['#00ddb8', '#0093dd', '#0024dd'];
 let bricks = [];
 for (let i = 0; i < brickCols; i++) {
     bricks[i] = [];
@@ -49,6 +53,8 @@ function keyDownHandler(e) {
         rightPressed = true;
     } else if (e.key == 'Left' || e.key == 'ArrowLeft') {
         leftPressed = true;
+    } else if (e.key == ' ') {
+        togglePause();  
     }
 }
 
@@ -67,12 +73,22 @@ function mouseMoveHandler(e) {
     }
 }
 
+function togglePause() {
+    if (!paused) {
+        paused = true;
+        console.log(`I should be paused. var paused = ${paused}`)
+    } else {
+        paused = false;
+        console.log(`Game on! var paused = ${paused}`)
+    }
+}
+
 function collisionDetect() { 
     for (let cols = 0; cols < brickCols; cols++) {
         for (let rows = 0; rows < brickRows; rows++) {
             let brick = bricks[cols][rows];
             if (brick.status == 1) {
-                if (x > brick.x && x < (brick.x + brickWidth) && y > brick.y && y < (brick.y + brickHeight)) {
+                if (x > (brick.x - ballRadius) && x < (brick.x + brickWidth) + ballRadius && y  > brick.y - ballRadius && y < (brick.y + brickHeight) + ballRadius) {
                     dy = -dy;
                     brick.status = 0;
                     score++;
@@ -108,7 +124,7 @@ function drawBricks() {
                 bricks[columns][rows].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = '#0095DD';
+                ctx.fillStyle = brickColors[2];
                 ctx.fill();
                 ctx.closePath();
             }
@@ -167,11 +183,29 @@ function draw() {
     // top
     if (y + dy < ballRadius) {
         dy = -dy;
-    } else if (y + dy > (canvas.height - ballRadius)) {
-        if (x > paddleX && x < (paddleX + paddleWidth)) {
+    } else if (y + dy > (canvas.height - ballRadius)) { 
+        if (x + dx > paddleX && x +dx < (paddleX + paddleWidth)) { // paddle collision instead of floor
             dy = -dy;
-            dx += ballVel;
-            dy += -ballVel;
+            dx += ballVelIncrease;
+            dy += -ballVelIncrease;
+            ballRadius -= 0.5;
+            console.log(`Ball radius: ${ballRadius}`)
+            if ( ballRadius < 1 ) { // if ball gets too small
+                lives--;
+                if (!lives) {
+                    alert('Game Over');
+                    document.location.reload();
+                } else {
+                    ballRadius = 3.5; // have a little mercy; reset the ball size up a bit
+                    console.log(`Radius increased to ${ballRadius}`)
+                    x = canvas.width / 2;
+                    y = canvas.height - 30;
+                    dx = 2;
+                    dy = -2;
+                    paddleX = (canvas.width - paddleWidth) / 2;
+                }
+                
+            }
         } else {
             lives--;
             if (!lives) {
@@ -188,6 +222,7 @@ function draw() {
     }
     x += dx;
     y += dy;
+
     requestAnimationFrame(draw);
 }
 
