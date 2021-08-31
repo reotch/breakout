@@ -16,7 +16,7 @@ let y = canvas.height - 30;
 let dx = Math.random() * 2; // default 2
 let dy = -2; // default -2
 let ballRadius = 10;
-let ballVelIncrease = 0.4; 
+let ballVelIncrease = 0.4;
 let ballColors = {
     faintRedGlow: '#990000',
     darkRed: '#CC0000',
@@ -25,14 +25,14 @@ let ballColors = {
     paleOrange: '#FFA64D',
     yellowWhite: '#FFFF33',
     white: '#FFFFFF',
-    blue: '#9999FF'
-}
+    blue: '#9999FF',
+};
 
 // paddle vars
 let paddleWidth = 75; // default 75
 let paddleHeight = 10;  // default 10
 let paddleX = (canvas.width - paddleWidth) / 2; // x val of center of paddle
-const paddleColor = '#00FF00';
+const paddleColor = '#5C8BA2';
 const paddleSpeed = 8; // default 8
 const paddleRightSide = paddleX + (paddleWidth / 2);
 const paddleLeftSide = paddleX - (paddleWidth / 2);
@@ -46,6 +46,9 @@ let brickPadding = 10; // padding all sides between bricks
 let brickOffsetTop = 30; // start drawing bricks from top
 let brickOffsetLeft = 30; // start drawing bricks from left
 let brickColors = ['#00ddb8', '#0093dd', '#0024dd']; // Future update
+let brickGrd = ctx.createLinearGradient(0, 0, brickWidth, brickHeight);
+brickGrd.addColorStop(0, brickColors[2]);
+brickGrd.addColorStop(1, brickColors[1]);
 let bricks = [];
 for (let i = 0; i < brickCols; i++) {
     bricks[i] = [];
@@ -161,9 +164,10 @@ function drawBricks() {
                 bricks[columns][rows].x = brickX;
                 bricks[columns][rows].y = brickY;
                 ctx.beginPath();
-                ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                ctx.fillStyle = brickColors[2];
-                ctx.fill();
+                // ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                // ctx.fillStyle = brickColors[2];
+                ctx.fillStyle = brickGrd;
+                ctx.fillRect(brickX, brickY, brickWidth, brickHeight);
                 ctx.closePath();
             }
         }
