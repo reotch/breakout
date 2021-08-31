@@ -3,7 +3,7 @@
 canvas { 
     /* background: #000;  */
     background-image: url(/assets/images/bg.jpg);
-    background-size: auto;
+    background-size: 150%;
     display: block; 
     margin: 0 auto; 
 }

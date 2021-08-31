@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+    <title>Cosmic Breakout!</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </head>
 <body>
     <canvas id="gameCanvas" width="480" height="320"></canvas>
+    <hr>
     <div class="container">
         <div>
             <h2>The Mintbean Hackathon</h2>
@@ -19,7 +22,7 @@
                     <li>Languages: JavaScript, HTML5, CSS</li>
                     <li>Control:</li>
                         <ul>
-                            <li>Keyboard: left & right arrow keys</li>
+                            <li>Keyboard: left & right arrow keys, s to start and pause</li>
                             <li>Mouse movement when on the page</li>
                         </ul>
                     <li>Gameplay Tweaks:</li>
@@ -28,17 +31,43 @@
                         <li>Ball increases velocity per paddle hit</li>
                         <li>Lives lost if ball disappears (&lt; 1 pixel) or ball misses paddle</li>
                     </ul>
-                    <li></li>
-                    <li></li>
                 </ul>
                 <p>This is a vanilla JavaScript project. It draws all objects to the HTML5 canvas directly without use of any JavaScript packages or pre-rendered sprites, save the background image. Control of the paddle is by <strong>left and right arrows</strong> or by <strong>mouse movement</strong>.</p>
                 <p>Twists on the classic version include reducing the size of the ball and increasing its speed each time it strikes the user-controlled paddle. This causes variation in the directionality because the center of the ball object changes while the X-Y shift remains the same.</p>
             </div>
             <h3>It's Breakout! (But Why?)</h3>
-            <p>O Hackathon, o Hackathon,<br>
-            Ambition be thy downfall.</p>
-            <p>This is my second hackathon. I didn't finish my first.</p>
-            <p>List of subjective colors of stars:</p>
+            <figure class="text-start">
+                <blockquote class="blockquote">O Hackathon, o Hackathon,<br>
+                Ambition be thy downfall.</blockquote>
+                <figcaption class="blockquote-footer">Me</figcaption>
+            </figure>
+            <p>This is my second hackathon. I didn't finish my first. It was all new; I had grand ambitions. What came of that were a series of starts and restarts in a framework I had put on the shelf for a while. I took my lessons from that and looked forward to this challenge.</p>
+            <p>When the word came down that it was a 2D game I felt a bit of relief. I've made a few 2D games. I would have a couple in my pocket if all else fails.</p>
+            <figure class="text-center">
+                <blockquote class="blockquote">"Your game's frontend must be built in JavaScript or Typescript."</blockquote>
+                <figcaption class="blockquote-footer">Mintbean</figcaption>
+            </figure>
+            <p>Ah, ok. Look, JavaScript is not my favorite. I just kind of know it because I need to. TypeScript? I like that more. OK. This is going to be a little like the first hackathon after all, in that I would be dusting off some old notebooks and getting back into the massive ecosystem.</p>
+            <p>A little side note: I've been learning Java as of late, and I am really liking it. It has been said "Java is to JavaScript as ham is to hamster." Agreed, sure, but they don't <em>look</em> that different when you type them out. I found that my enjoyment of one was helping with the other.</p>
+            <p>Or it was, until I hit on some old frustrations.</p>
+            <p>One of the reasons I'm not a huge fan of JavaScript is that there are loads and loads of flavor-of-the-year libraries, frameworks, and packages. I spent a great deal of time in "tutorial hell" for the big three front-end frameworks—Angular, React, and Vue—and all I got was this lousy Github dependabot yelling at me about security updates six months later.</p>
+            <p>I'll try and get to the point here. I had explored a few libraries for this project, hoping that I could repeat the successes I've had with <a href="https://github.com/reotch/alien_invasion" target="_blank">PyGame</a>. I tried MelonJS, PhaserJS, and KaboomJS and a few of their relative template setups from Github. After running `npm install` it was "depricated" this and "severe warning" that.</p>
+            <p>It's a one-week project. I, like everyone else, had a few things to do this week. And I am developing this on a slightly over-powered potato; an AMD A9 APU if you were curious. After banging my head against the wall for two days I decided to follow the tried and true KISS protocol. I'll whip up a basic game that has been done a lot, put some spin on it, and add three files and a few links to my website.</p>
+            <h3>A Little Redirection</h3>
+            <p>I had decided on doing a hybrid of two games I love: Asteroids and Missle Command, perhaps with a veneer and story inspired by The Expanse books (I am still watching the show). I haven't done much with HTML5 `canvas`, but it was fun to draw shapes, especially just with `stroke()`. I have a love of "laser line" games like the original Star Wars 1983, Tempest, Asteroids, all things Tron.</p>
+            <p>I got hung up on the math. You'd think that making a stationary gunner position would be easier than a ship moving in two-dimensional space, but for this project...not so much.</p>
+            <p>OK. Time is running out. Back to the rules.</p>
+            <figure class="text-end">
+                <blockquote class="blockquote">"You can build any game you'd like. Whether it's Tetris, Super Mario, Civilization, Diablo, Slime Volleyball (remember that?), or just a ball bouncing around on a screen, ..."</blockquote>
+                <figcaption class="blockquote-footer">Mintbean</figcaption>
+            </figure>
+            <p>Bouncing ball? I used to spend loads of time playing Breakout! And it is a <strong>lot</strong> less trigonometry!</p>
+            <p>How to add my own spin? Let's give it a cosmic vibe. Here is the story: the ball bounces into the brick, which is a bit like a monolith from <em>2001: A Space Odyssey</em>, but more specifically, <em>2010: The Year We Make Contact</em>. Those monoliths increased the mass of Jupiter, turning it into a second sun. How about the bricks add mass to the star, which starts off large and cool (as stars go) and as the star adds bricks and bounces off the paddle it increases its velocity and mass, burning hotter, moving faster, until it gets so dense it causes a singularity.</p>
+            <p>That's my imagination running wild. It's sort of reminding me of the lore around old cartridge games that just couldn't tell the whole story with so little storage.</p>
+            <p>With more time and better math skills I could probably make this a little more grounded in reality. But I'm not an astrophysicist. I'm trying to participate in a hackathon. It is nice to think of those possibilities though; if anything it gets the creative juices going.</p>
+            <p>So here: the non-astrophysicist's thoughts on making this happen.</p>
+            
+            <h3>List of subjective colors of stars</h3>
             <ul>
                 <li>faint red glow</li>
                 <li>dark red</li>
@@ -49,21 +78,28 @@
                 <li>white</li>
                 <li>blue</li>
             </ul>
-            <p><small>Source: <a href="https://en.wikipedia.org/wiki/Thermal_radiation#Subjective_color_to_the_eye_of_a_black_body_thermal_radiator" target="_blank">Wikipedia: Thermal Radiation</a></small></p>
-            <p><small>Source: <a href="https://courses.lumenlearning.com/astronomy/chapter/colors-of-stars/" target="_blank">Colors of Stars | Astronomy</a></small></p>
-            <p><small>Source: <a href="https://phet.colorado.edu/sims/html/blackbody-spectrum/latest/blackbody-spectrum_en.html" target="_blank">PHET Blackbody Spectrum</a></small></p>
+            <div>
+                <figure class="text-end">
+                    <figcaption>
+                        <small>Source: <a href="https://en.wikipedia.org/wiki/Thermal_radiation#Subjective_color_to_the_eye_of_a_black_body_thermal_radiator" target="_blank">Wikipedia: Thermal Radiation</a></small><br>
+                        <small>Source: <a href="https://courses.lumenlearning.com/astronomy/chapter/colors-of-stars/" target="_blank">Colors of Stars | Astronomy</a></small><br>
+                        <small>Source: <a href="https://phet.colorado.edu/sims/html/blackbody-spectrum/latest/blackbody-spectrum_en.html" target="_blank">PHET Blackbody Spectrum</a></small>
+                    </figcaption>
+                </figure>
+            </div>
         </div>
         <div>
             <p>This is great stuff, but it turns out it is pretty tricky trying to convert color temperature to hexadecimal. So in the end...it's a best guess for this game. To the <a href="https://www.w3schools.com/colors/colors_picker.asp">Color Picker</a>!</p>
-            <ul>
-                <li>faint red glow<span class="dot" id="faintRedGlow" style="background: #990000;"></span></li>
-                <li>dark red<span class="dot" id="darkRed" style="background: #CC0000;"></span></li>
-                <li>bright red, slightly orange<span class="dot" id="brightRed" style="background: #FF0000;"></span></li>
-                <li>bright orange<span class="dot" id="brightOrange" style="background: #FF6600;"></span></li>
-                <li>pale yellowish orange<span class="dot" id="paleOrange" style="background: #ffa64d;"></span></li>
-                <li>yellowish white<span class="dot" id="yellowWhite" style="background: #FFFF33;"></span></li>
-                <li>white<span class="dot" id="white" style="background: #FFF;"></span></li>
-                <li>blue<span class="dot" id="blue" style="background: #9999FF;"></span></li>
+            <p>And after too much time, here we go with the colors:</p>
+            <ul class="list-unstyled">
+                <li><span class="dot" id="faintRedGlow" style="background: #990000;"></span>&Tab;faint red glow</li>
+                <li><span class="dot" id="darkRed" style="background: #CC0000;"></span>&Tab;dark red</li>
+                <li><span class="dot" id="brightRed" style="background: #FF0000;"></span>&Tab;bright red, slightly orange</li>
+                <li><span class="dot" id="brightOrange" style="background: #FF6600;"></span>&Tab;bright orange</li>
+                <li><span class="dot" id="paleOrange" style="background: #ffa64d;"></span>&Tab;pale yellowish orange</li>
+                <li><span class="dot" id="yellowWhite" style="background: #FFFF33;"></span>&Tab;yellowish white</li>
+                <li><span class="dot" id="white" style="background: #FFF;"></span>&Tab;white</li>
+                <li><span class="dot" id="blue" style="background: #9999FF;"></span>&Tab;blue</li>
             </ul>
         </div>
         <div id="todo"></div>

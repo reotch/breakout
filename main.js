@@ -1,44 +1,51 @@
-import { canvas, ctx } from './modules/canvas.js';
-import { paddleColor } from './modules/paddle.js';
-import { heatBall } from './modules/ball.js';
-// import * as scoreboard from './modules/scoreboard.js'
-// import { x, y, dx, dy, ballRadius, ballVelIncrease } from './modules/ball.js';
-
-// color imports
+// ----- [ Variables ] ----- //
+// canvas
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
 // game vars
 let score = 0;
 let lives = 3;
-let paused = false;
+let paused = true;
+const gameFont = 'Ubuntu';
+const scoreColor = '#FFFFFF';
 
 // ball vars
 let x = canvas.width / 2;
 let y = canvas.height - 30;
-let dx = 2; // default 2
+let dx = Math.random() * 2; // default 2
 let dy = -2; // default -2
 let ballRadius = 10;
-let ballVelIncrease = 0.4; // default to 0.2
+let ballVelIncrease = 0.4; 
+let ballColors = {
+    faintRedGlow: '#990000',
+    darkRed: '#CC0000',
+    brightRed: '#FF0000',
+    brightOrange: '#FF6600',
+    paleOrange: '#FFA64D',
+    yellowWhite: '#FFFF33',
+    white: '#FFFFFF',
+    blue: '#9999FF'
+}
 
 // paddle vars
 let paddleWidth = 75; // default 75
 let paddleHeight = 10;  // default 10
 let paddleX = (canvas.width - paddleWidth) / 2; // x val of center of paddle
-// sections of paddle
-let paddleRightSide = paddleX + (paddleWidth / 2);
-let paddleLeftSide = paddleX - (paddleWidth / 2);
-// let paddleLeftBorder = paddleX - (paddleWidth / 2);
-// let paddleRightBorder = paddleX + (paddleWidth / 2);
-let paddleSpeed = 8; // normal setting is 8
+const paddleColor = '#00FF00';
+const paddleSpeed = 8; // default 8
+const paddleRightSide = paddleX + (paddleWidth / 2);
+const paddleLeftSide = paddleX - (paddleWidth / 2);
 
 // brick vars
 let brickRows = 3; // default 3
 let brickCols = 7; // default 5
-let brickWidth = 50; // calc based on canvas width
+let brickWidth = 50; // if 5, default 75; if 7, default 50
 let brickHeight = 20; // default 20
 let brickPadding = 10; // padding all sides between bricks
 let brickOffsetTop = 30; // start drawing bricks from top
 let brickOffsetLeft = 30; // start drawing bricks from left
-let brickColors = ['#00ddb8', '#0093dd', '#0024dd'];
+let brickColors = ['#00ddb8', '#0093dd', '#0024dd']; // Future update
 let bricks = [];
 for (let i = 0; i < brickCols; i++) {
     bricks[i] = [];
@@ -51,7 +58,7 @@ for (let i = 0; i < brickCols; i++) {
 let rightPressed = false;
 let leftPressed = false;
 
-// event listeners
+// ----- [ Event Listeners & Input Handler Functions ] ----- //
 document.addEventListener('keydown', keyDownHandler, false);
 document.addEventListener('keyup', keyUpHandler, false);
 document.addEventListener('mousemove', mouseMoveHandler, false);
@@ -61,7 +68,7 @@ function keyDownHandler(e) {
         rightPressed = true;
     } else if (e.key == 'Left' || e.key == 'ArrowLeft') {
         leftPressed = true;
-    } else if (e.key == ' ') {
+    } else if (e.key == 's') {
         togglePause();  
     }
 }
@@ -82,15 +89,13 @@ function mouseMoveHandler(e) {
 }
 
 function togglePause() {
-    if (!paused) {
-        paused = true;
-        console.log(`I should be paused. var paused = ${paused}`)
-    } else {
-        paused = false;
-        console.log(`Game on! var paused = ${paused}`)
-    }
+    paused = !paused;
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    draw();
 }
 
+// ----- [ Ball Behavior Functions ] ----- //
+// collision detection with bricks
 function collisionDetect() { 
     for (let cols = 0; cols < brickCols; cols++) {
         for (let rows = 0; rows < brickRows; rows++) {
@@ -101,8 +106,10 @@ function collisionDetect() {
                     brick.status = 0;
                     score++;
                     if (score == brickRows * brickCols) {
-                        alert('You win!')
-                        document.location.reload();
+                        drawWin();
+                        setTimeout(function() {
+                            document.location.reload();
+                        }, 3000)
                     }
                 }
             }
@@ -110,18 +117,41 @@ function collisionDetect() {
     }
 }
 
+// ball turns "hotter" when hitting paddle
+function heatBall(radius) {
+    if (radius >= 1 && radius <= 2) {
+        return ballColors.blue;
+    } else if (radius > 2 && radius <= 3) {
+        return ballColors.white;
+    } else if (radius > 3 && radius <= 4) {
+        return ballColors.yellowWhite;
+    } else if (radius > 4 && radius <= 5) {
+        return ballColors.paleOrange;
+    } else if (radius > 5 && radius <= 6) {
+        return ballColors.brightOrange;
+    } else if (radius > 6 && radius <= 7) {
+        return ballColors.brightRed;
+    } else if (radius > 7 && radius <= 8) {
+        return ballColors.darkRed;
+    } else {
+        return ballColors.faintRedGlow;
+    }
+}
+
+// ----- [ Draw Scoreboard and Lives ] ----- //
 function drawScore() {
-    ctx.font = '16px Ubuntu';
+    ctx.font = '16px ' + gameFont;
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Score: ${score}`, 8, 20) // score + scoreboard x, y
 }
 
 function drawLives() {
-    ctx.font = '16px Ubuntu';
+    ctx.font = '16px ' + gameFont;
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Lives: ${lives}`, (canvas.width - 65), 20);
 }
 
+// ----- [ Draw Ball, Bricks, Paddle  ] ----- //
 function drawBricks() {
     for (let columns = 0; columns < brickCols; columns++) {
         for (let rows = 0; rows < brickRows; rows++) {
@@ -162,14 +192,35 @@ function drawPaddle() {
     ctx.closePath();
 }
 
+// draw game over text
 function drawGameOver() {
-    ctx.font = '30px Ubuntu';
-    ctx.fillStyle = '#FF6600';
+    togglePause();
+    ctx.font = '45px Ubuntu';
+    ctx.strokeStyle = '#FF6600';
     ctx.textAlign = 'center';
-    ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2)
+    ctx.strokeText('Game Over!', canvas.width / 2, canvas.height / 2)
+    
 }
 
-// main game function
+// ball gets too hot, too dense
+function drawSingularity() {
+    togglePause();
+    ctx.font = '30px Ubuntu';
+    ctx.strokeStyle = '#FF6600';
+    ctx.textAlign = 'center';
+    ctx.strokeText('You\'ve created a singularity!', canvas.width / 2, canvas.height / 2)
+}
+
+// draw win text when all blocks destroyed
+function drawWin() {
+    togglePause();
+    ctx.font = '45px Ubuntu';
+    ctx.strokeStyle = '#FF6600';
+    ctx.textAlign = 'center';
+    ctx.strokeText('You win!', canvas.width / 2, canvas.height / 2)
+}
+
+// ----- [ Main game function ] ----- //
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
@@ -208,12 +259,16 @@ function draw() {
             console.log(`Ball radius: ${ballRadius}`)
             if ( ballRadius < 1 ) { // if ball gets too small
                 lives--;
-                // ball becomes singularity function goes here
-                // ballSingularity();
                 if (!lives) {
-                    drawGameOver()
-                    document.location.reload();
+                    drawGameOver();
+                    setTimeout(function() {
+                        document.location.reload();
+                    }, 3000);
                 } else {
+                    drawSingularity();
+                    setTimeout(function() {
+                        togglePause();
+                    }, 2000)
                     ballRadius = 4; // have a little mercy; reset the ball size up a bit
                     console.log(`Radius increased to ${ballRadius}`)
                     x = canvas.width / 2;
@@ -221,15 +276,19 @@ function draw() {
                     dx = 2;
                     dy = -2;
                     paddleX = (canvas.width - paddleWidth) / 2;
+                    
+                    
                 }
                 
             }
         } else {
             lives--;
             if (!lives) {
-                // alert('Game Over');
                 drawGameOver();
-                document.location.reload();
+                setTimeout(function() {
+                    document.location.reload();
+                }, 3000);
+                
             } else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
@@ -239,10 +298,15 @@ function draw() {
             }
         }
     }
+
+    // set ball in motion
     x += dx;
     y += dy;
+    
 
-    requestAnimationFrame(draw);
+    if (!paused) {
+        requestAnimationFrame(draw);
+    }
 }
 
 draw();
