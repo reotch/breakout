@@ -10,8 +10,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 </head>
 <body>
+    <!-- Nav -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Cosmic Breakout!</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link" href="https://sandrok.com" target="_blank">Portfolio Site</a>
+              <a class="nav-link" href="https://linkedin.com/in/sandrok" target="_blank">LinkedIn</a>
+              <a class="nav-link" href="https://github.com/reotch" target="_blank">Github</a>
+              <a class="nav-link" href="https://twitter.com/richardsandrok" target="_blank">Twitter</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    <!-- Canvas -->
     <canvas id="gameCanvas" width="480" height="320"></canvas>
+    <figcaption style="text-align: center;"><strong>s</strong> = play/pause<br><strong>left/right arrow</strong> = move paddle<br><strong>mouse movement</strong> = move paddle</figcaption>
     <hr>
+    <!-- Game Description and Log -->
     <div class="container">
         <div>
             <h2>The Mintbean Hackathon</h2>
