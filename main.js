@@ -1,5 +1,10 @@
-let canvas = document.getElementById('gameCanvas');
-let ctx = canvas.getContext('2d');
+import { canvas, ctx } from './modules/canvas.js';
+import { paddleColor } from './modules/paddle.js';
+import { heatBall } from './modules/ball.js';
+// import * as scoreboard from './modules/scoreboard.js'
+// import { x, y, dx, dy, ballRadius, ballVelIncrease } from './modules/ball.js';
+
+// color imports
 
 // game vars
 let score = 0;
@@ -18,6 +23,9 @@ let ballVelIncrease = 0.4; // default to 0.2
 let paddleWidth = 75; // default 75
 let paddleHeight = 10;  // default 10
 let paddleX = (canvas.width - paddleWidth) / 2; // x val of center of paddle
+// sections of paddle
+let paddleRightSide = paddleX + (paddleWidth / 2);
+let paddleLeftSide = paddleX - (paddleWidth / 2);
 // let paddleLeftBorder = paddleX - (paddleWidth / 2);
 // let paddleRightBorder = paddleX + (paddleWidth / 2);
 let paddleSpeed = 8; // normal setting is 8
@@ -103,13 +111,13 @@ function collisionDetect() {
 }
 
 function drawScore() {
-    ctx.font = '16px Arial';
+    ctx.font = '16px Ubuntu';
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Score: ${score}`, 8, 20) // score + scoreboard x, y
 }
 
 function drawLives() {
-    ctx.font = '16px Ariel';
+    ctx.font = '16px Ubuntu';
     ctx.fillStyle = '#0095DD';
     ctx.fillText(`Lives: ${lives}`, (canvas.width - 65), 20);
 }
@@ -133,9 +141,10 @@ function drawBricks() {
 }
 
 function drawBall() {
+    let ballColor = heatBall(ballRadius);
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = ballColor;
     ctx.fill();
     ctx.closePath();
 }
@@ -148,9 +157,16 @@ function drawPaddle() {
         paddleWidth,
         paddleHeight
     );
-    ctx.fillStyle = '#0095DD';
+    ctx.fillStyle = paddleColor;
     ctx.fill();
     ctx.closePath();
+}
+
+function drawGameOver() {
+    ctx.font = '30px Ubuntu';
+    ctx.fillStyle = '#FF6600';
+    ctx.textAlign = 'center';
+    ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2)
 }
 
 // main game function
@@ -192,11 +208,13 @@ function draw() {
             console.log(`Ball radius: ${ballRadius}`)
             if ( ballRadius < 1 ) { // if ball gets too small
                 lives--;
+                // ball becomes singularity function goes here
+                // ballSingularity();
                 if (!lives) {
-                    alert('Game Over');
+                    drawGameOver()
                     document.location.reload();
                 } else {
-                    ballRadius = 3.5; // have a little mercy; reset the ball size up a bit
+                    ballRadius = 4; // have a little mercy; reset the ball size up a bit
                     console.log(`Radius increased to ${ballRadius}`)
                     x = canvas.width / 2;
                     y = canvas.height - 30;
@@ -209,7 +227,8 @@ function draw() {
         } else {
             lives--;
             if (!lives) {
-                alert('Game Over');
+                // alert('Game Over');
+                drawGameOver();
                 document.location.reload();
             } else {
                 x = canvas.width / 2;

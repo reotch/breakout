@@ -9,6 +9,65 @@
 </head>
 <body>
     <canvas id="gameCanvas" width="480" height="320"></canvas>
-    <script src="./main.js"></script>
+    <div class="container">
+        <div>
+            <h2>The Mintbean Hackathon</h2>
+            <small>24 &ndash; 31 August 2021</small>
+            <div id="tldr">
+                <h3>TL;DR</h3>
+                <ul>
+                    <li>Languages: JavaScript, HTML5, CSS</li>
+                    <li>Control:</li>
+                        <ul>
+                            <li>Keyboard: left & right arrow keys</li>
+                            <li>Mouse movement when on the page</li>
+                        </ul>
+                    <li>Gameplay Tweaks:</li>
+                    <ul>
+                        <li>Ball decreases per paddle hit</li>
+                        <li>Ball increases velocity per paddle hit</li>
+                        <li>Lives lost if ball disappears (&lt; 1 pixel) or ball misses paddle</li>
+                    </ul>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <p>This is a vanilla JavaScript project. It draws all objects to the HTML5 canvas directly without use of any JavaScript packages or pre-rendered sprites, save the background image. Control of the paddle is by <strong>left and right arrows</strong> or by <strong>mouse movement</strong>.</p>
+                <p>Twists on the classic version include reducing the size of the ball and increasing its speed each time it strikes the user-controlled paddle. This causes variation in the directionality because the center of the ball object changes while the X-Y shift remains the same.</p>
+            </div>
+            <h3>It's Breakout! (But Why?)</h3>
+            <p>O Hackathon, o Hackathon,<br>
+            Ambition be thy downfall.</p>
+            <p>This is my second hackathon. I didn't finish my first.</p>
+            <p>List of subjective colors of stars:</p>
+            <ul>
+                <li>faint red glow</li>
+                <li>dark red</li>
+                <li>bright red, slightly orange</li>
+                <li>bright orange</li>
+                <li>pale yellowish orange</li>
+                <li>yellowish white</li>
+                <li>white</li>
+                <li>blue</li>
+            </ul>
+            <p><small>Source: <a href="https://en.wikipedia.org/wiki/Thermal_radiation#Subjective_color_to_the_eye_of_a_black_body_thermal_radiator" target="_blank">Wikipedia: Thermal Radiation</a></small></p>
+            <p><small>Source: <a href="https://courses.lumenlearning.com/astronomy/chapter/colors-of-stars/" target="_blank">Colors of Stars | Astronomy</a></small></p>
+            <p><small>Source: <a href="https://phet.colorado.edu/sims/html/blackbody-spectrum/latest/blackbody-spectrum_en.html" target="_blank">PHET Blackbody Spectrum</a></small></p>
+        </div>
+        <div>
+            <p>This is great stuff, but it turns out it is pretty tricky trying to convert color temperature to hexadecimal. So in the end...it's a best guess for this game. To the <a href="https://www.w3schools.com/colors/colors_picker.asp">Color Picker</a>!</p>
+            <ul>
+                <li>faint red glow<span class="dot" id="faintRedGlow" style="background: #990000;"></span></li>
+                <li>dark red<span class="dot" id="darkRed" style="background: #CC0000;"></span></li>
+                <li>bright red, slightly orange<span class="dot" id="brightRed" style="background: #FF0000;"></span></li>
+                <li>bright orange<span class="dot" id="brightOrange" style="background: #FF6600;"></span></li>
+                <li>pale yellowish orange<span class="dot" id="paleOrange" style="background: #ffa64d;"></span></li>
+                <li>yellowish white<span class="dot" id="yellowWhite" style="background: #FFFF33;"></span></li>
+                <li>white<span class="dot" id="white" style="background: #FFF;"></span></li>
+                <li>blue<span class="dot" id="blue" style="background: #9999FF;"></span></li>
+            </ul>
+        </div>
+        <div id="todo"></div>
+    </div> 
+    <script type="module" src="./main.js"></script>
 </body>
 </html>
